@@ -1,6 +1,7 @@
 import { ApiResponse } from "../utils/apiResponse.js";
 // .controller in file name is convention
-const healthcheck = async (req, res , next) => {
+
+/* const healthcheck = async (req, res , next) => {
   try {
     const user = await getUserFromDB()
     res
@@ -9,6 +10,6 @@ const healthcheck = async (req, res , next) => {
   } catch (error) {
     next(err)
   }
-};
+}; */
 
 export { healthcheck };
