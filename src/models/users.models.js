@@ -67,7 +67,7 @@ const userSchema = new Schema(
 
 // 10 is cost factor which means hashing process 2 ^ 10 = 1024 times internally
 // next() means move to next middleware
-
+// isModified is mongoose predefined method
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10);
@@ -110,7 +110,7 @@ userSchema.methods.generateTemporaryToken = function() {
   .digest("hex")
   
   const tokenExpiry = Date.now() + (20*60*1000) //  20 mins
-  return(unHashedToken,hashedToken,tokenExpiry)
+  return {unHashedToken,hashedToken,tokenExpiry}
 
 }
 
