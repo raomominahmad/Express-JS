@@ -1,8 +1,8 @@
-import { User } from "../models/users.models";
-import { ApiResponse } from "../utils/apiResponse";
-import { asyncHandler } from "../utils/asyncHandler";
+import { User } from "../models/users.models.js";
+import { ApiResponse } from "../utils/apiResponse.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiError } from "../utils/apiError.js";
-import {sendEmail} from "../utils/mail.js"
+import {sendEmail,emailVerificationMailgenContent} from "../utils/mail.js"
 
 const generateAccessAndRefreshTokens = async (userId) => {
   try {
@@ -27,12 +27,12 @@ const generateAccessAndRefreshTokens = async (userId) => {
 const registeredUser = asyncHandler(async (req, res) => {
   const { email, username, password, role } = req.body;
 
-  const existedUser = User.findOne({
+  const existedUser = await User.findOne({
     $or: [{ username }, { email }],
   });
 
   if (existedUser) {
-    throw new ApiError(404, "User with email or usernmae already exists", []);
+    throw new ApiError(400, "User with email or usernmae already exists", []);
   }
 
   const user = await User.create({
@@ -43,7 +43,7 @@ const registeredUser = asyncHandler(async (req, res) => {
   });
 
   const { unHashedToken, hashedToken, tokenExpiry } =
-    user.generateTemporaryTokens();
+    user.generateTemporaryToken();
 
   user.emailVerificationToken = hashedToken;
   user.emailVerificationExpiry = tokenExpiry;
