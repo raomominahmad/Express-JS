@@ -27,4 +27,20 @@ import healthCheckRouter from "./routes/healthcheck.route.js"
 
 app.use("/api/v1/healthcheck" , healthCheckRouter)
 
+// app.get("/test-email", async (req, res) => {
+//   await sendEmail({
+//     email: "test@example.com", // can be anything
+//     subject: "Test Email",
+//     mailgenContent: {
+//       body: {
+//         name: "Momin",
+//         intro: "Welcome to Task Manager!",
+//         outro: "Need help? Reply to this email."
+//       }
+//     }
+//   });
+
+//   res.send("Email sent");
+// });
+
 export default app;
