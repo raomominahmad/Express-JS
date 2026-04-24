@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import cookieParser from "cookie-parser";
 
 const app = express();
 
@@ -10,6 +11,8 @@ app.get("/", (req, res) => {
   res.send("Welcome to basecampy");
 });
 
+// cookies
+app.use(cookieParser())
 // cors configuration
 // ? optional chaining
 app.use(
