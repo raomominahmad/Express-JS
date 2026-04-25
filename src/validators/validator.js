@@ -60,3 +60,34 @@ export const userLoginValidator = () =>{
   ]
 }
 
+export const userChangeCurrentPassswordValidator = () => {
+  return[
+    
+    body("oldpassword")
+      .notEmpty()
+      .withMessage("Old Password is required"),
+    
+    body("newPassword")
+    .notEmpty()
+    .withMessage("New password is required")
+
+  ]
+}
+
+export const userForgotPasswordValidator = () => {
+  return[
+    body("email")
+    .notEmpty()
+    .withMessage("Email is required")
+    .isEmail()
+    .withMessage("Email is invalid")
+  ]
+}
+
+export const userResetForgotPasswordValidator = () => {
+   return[
+     body("newPassword")
+      .notEmpty()
+      .withMessage("Password is required")
+   ]
+}
