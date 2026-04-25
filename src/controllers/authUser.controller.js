@@ -310,7 +310,7 @@ const forgotPasswordRequest = asyncHandler(async (req, res) => {
     subject: "Password reset request",
     mailgenContent: forgotPasswordMailgenContent(
       user.username,
-      `${process.env.FORGOT_PASSWORD_REDIRECT_URl}/${unHashedToken}`,
+      `${process.env.FORGOT_PASSWORD_REDIRECT_URL}/${unHashedToken}`,
     ),
   });
 
@@ -356,7 +356,7 @@ const resetForgetPasword = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const [oldPassword, newPassword] = req.body;
+  const {oldPassword, newPassword} = req.body;
 
   const user = await User.findById(req.user?._id);
   const isPasswordValid = await user.isPasswordCorrect(oldPassword);
@@ -378,6 +378,7 @@ export {
   loginUser,
   logoutUser,
   verifyEmail,
+  getCurrentUser,
   resendEmailVerification,
   refreshAccessToken,
   forgotPasswordRequest,

@@ -63,7 +63,7 @@ export const userLoginValidator = () =>{
 export const userChangeCurrentPassswordValidator = () => {
   return[
     
-    body("oldpassword")
+    body("oldPassword")
       .notEmpty()
       .withMessage("Old Password is required"),
     
