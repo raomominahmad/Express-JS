@@ -21,9 +21,11 @@ export const userRegisterValidator = () => {
       .isLength({ min: 3, max: 20 })
       .withMessage("Username must be between 3 and 20 characters")
       .matches(/^[a-z0-9_]+$/)
-      .withMessage("Username can only contain lowercase letters, numbers, and underscores"),
+      .withMessage(
+        "Username can only contain lowercase letters, numbers, and underscores",
+      ),
 
-    // Password 
+    // Password
     body("password")
       .trim()
       .notEmpty()
@@ -44,50 +46,44 @@ export const userRegisterValidator = () => {
   ];
 };
 
-export const userLoginValidator = () =>{
-  return[
+export const userLoginValidator = () => {
+  return [
     // Email
-    body("email")
-    .optional()
-    .isEmail()
-    .withMessage("Email is invalid"),
+    body("email").optional().isEmail().withMessage("Email is invalid"),
 
     // password
-    body("password")
-    .notEmpty()
-    .withMessage("Password is required")
-
-  ]
-}
+    body("password").notEmpty().withMessage("Password is required"),
+  ];
+};
 
 export const userChangeCurrentPassswordValidator = () => {
-  return[
-    
-    body("oldPassword")
-      .notEmpty()
-      .withMessage("Old Password is required"),
-    
-    body("newPassword")
-    .notEmpty()
-    .withMessage("New password is required")
+  return [
+    body("oldPassword").notEmpty().withMessage("Old Password is required"),
 
-  ]
-}
+    body("newPassword").notEmpty().withMessage("New password is required"),
+  ];
+};
 
 export const userForgotPasswordValidator = () => {
-  return[
+  return [
     body("email")
-    .notEmpty()
-    .withMessage("Email is required")
-    .isEmail()
-    .withMessage("Email is invalid")
-  ]
-}
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is invalid"),
+  ];
+};
 
 export const userResetForgotPasswordValidator = () => {
-   return[
-     body("newPassword")
+  return [body("newPassword").notEmpty().withMessage("Password is required")];
+};
+
+export const createProjectValidator = () => {
+  return [
+    body("name")
       .notEmpty()
-      .withMessage("Password is required")
-   ]
-}
+      .withMessage("Name is required")
+      .body("description")
+      .optional(),
+  ];
+};
