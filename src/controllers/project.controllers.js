@@ -7,7 +7,7 @@ import { ApiError } from "../utils/apiError.js";
 import mongoose from "mongoose";
 import { AvailableUserRole, UserRolesEnum } from "../utils/constants.js";
 
-export const getProjects = asyncHandler(async (req, res) => {
+const getProjects = asyncHandler(async (req, res) => {
   /* 
     Give me all projects where current user is a member, along with:
     project info
@@ -76,7 +76,7 @@ export const getProjects = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, projects, "Project fetched successfully"));
 });
 
-export const getProjectById = asyncHandler(async (req, res) => {
+const getProjectById = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
 
   const project = await Project.findById(projectId);
@@ -89,7 +89,7 @@ export const getProjectById = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, project, "Project fetched successfully"));
 });
 
-export const createProject = asyncHandler(async (req, res) => {
+const createProject = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
   const project = await Project.create({
     name,
@@ -108,7 +108,7 @@ export const createProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, project, "Project created successfully"));
 });
 
-export const updateProject = asyncHandler(async (req, res) => {
+const updateProject = asyncHandler(async (req, res) => {
   const { name, description } = req.body;
   const { projectId } = req.params;
 
@@ -129,7 +129,7 @@ export const updateProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, project, "Project updated successfully"));
 });
 
-export const deleteProject = asyncHandler(async (req, res) => {
+const deleteProject = asyncHandler(async (req, res) => {
   const { projectId } = req.params;
   const project = await Project.findByIdAndDelete(projectId);
   if (!project) {
@@ -141,7 +141,7 @@ export const deleteProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, project, "Project deleted successfully"));
 });
 
-export const deleteMember = asyncHandler(async (req, res) => {
+const deleteMember = asyncHandler(async (req, res) => {
   const { projectId, userId } = req.params;
 
   let projectMember = await ProjectMember.findOne({
@@ -170,7 +170,7 @@ export const deleteMember = asyncHandler(async (req, res) => {
     );
 });
 
-export const addMemebersToProject = asyncHandler(async (req, res) => {
+const addMemebersToProject = asyncHandler(async (req, res) => {
   /* 
   Add a user to a project as a member (or update role if already exists)”
   */
@@ -207,7 +207,7 @@ export const addMemebersToProject = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "Project member added successfully "));
 });
 
-export const getProjectMembers = asyncHandler(async (req, res) => {
+const getProjectMembers = asyncHandler(async (req, res) => {
   /* 
   Get all members of a project with user details + role
   
@@ -282,7 +282,7 @@ export const getProjectMembers = asyncHandler(async (req, res) => {
     );
 });
 
-export const updateMemberRole = asyncHandler(async (req, res) => {
+const updateMemberRole = asyncHandler(async (req, res) => {
   /* 
    Update a member’s role inside a project (like MEMBER → ADMIN)”
   
@@ -326,3 +326,16 @@ export const updateMemberRole = asyncHandler(async (req, res) => {
       ),
     );
 });
+
+
+export {
+  getProjectById,
+  getProjects,
+  getProjectMembers,
+  createProject,
+  updateProject,
+  deleteProject,
+  updateMemberRole,
+  deleteMember,
+  addMemebersToProject
+}
