@@ -1,5 +1,5 @@
 import { body } from "express-validator";
-import { AvailableUserRole } from "../utils/constants.js"
+import { AvailableUserRole } from "../utils/constants.js";
 
 export const userRegisterValidator = () => {
   return [
@@ -50,8 +50,11 @@ export const userRegisterValidator = () => {
 export const userLoginValidator = () => {
   return [
     // Email
-    body("email").optional().isEmail().withMessage("Email is invalid"),
-
+    body("email")
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is invalid"),
     // password
     body("password").notEmpty().withMessage("Password is required"),
   ];
@@ -81,26 +84,25 @@ export const userResetForgotPasswordValidator = () => {
 
 export const createProjectValidator = () => {
   return [
-    body("name")
-      .notEmpty()
-      .withMessage("Name is required")
-      .body("description")
-      .optional(),
+    body("name").notEmpty().withMessage("Name is required"),
+    body("description")
+        .optional()
+        .trim(),
   ];
 };
 
 export const addMembertoProjectValidator = () => {
-  return[
+  return [
     body("email")
-     .trim()
-     .notEmpty()
-     .withMessage("Email is required")
-     .isEmail()
-     .withMessage("Email is verified"),
+      .trim()
+      .notEmpty()
+      .withMessage("Email is required")
+      .isEmail()
+      .withMessage("Email is verified"),
     body("role")
-    .notEmpty() 
-    .withMessage("Role is required")
-    .isIn(AvailableUserRole)
-    .withMessage("Role is invalid")
-  ]
-}
+      .notEmpty()
+      .withMessage("Role is required")
+      .isIn(AvailableUserRole)
+      .withMessage("Role is invalid"),
+  ];
+};

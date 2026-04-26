@@ -45,12 +45,12 @@ router.route("/:projectId")
         deleteProject,
       )
 
-router.route("/projectId/members")
+router.route("/:projectId/members")
       .get(getProjectMembers)
       .post(
         validateProjectPermission([UserRolesEnum.ADMIN]),
         addMembertoProjectValidator(),
-        validate(),
+        validate,
         addMemebersToProject
       )
 

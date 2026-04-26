@@ -23,7 +23,7 @@ const getProjects = asyncHandler(async (req, res) => {
   const projects = await ProjectMember.aggregate([
     {
       $match: {
-        user: new mongoose.Types.ObjectId(req.user_id),
+        user: new mongoose.Types.ObjectId(req.user._id),
       },
     },
     {
@@ -31,13 +31,13 @@ const getProjects = asyncHandler(async (req, res) => {
         from: "projects",
         localField: "project",
         foreignField: "_id",
-        as: "projects",
+        as: "project",
         pipeline: [
           {
             $lookup: {
               from: "projectmembers",
               localField: "_id",
-              foreignField: "projects",
+              foreignField: "project",
               as: "projectmembers",
             },
           },
@@ -54,7 +54,7 @@ const getProjects = asyncHandler(async (req, res) => {
     },
     // unwind converts array field into object
     {
-      $unwind: "$projects",
+      $unwind: "$project",
     },
     {
       $project: {
@@ -65,10 +65,10 @@ const getProjects = asyncHandler(async (req, res) => {
           createdAt: 1,
           createdBy: 1,
         },
-      },
       role: 1,
       _id: 0,
-    },
+    } 
+   }
   ]);
 
   return res
@@ -98,7 +98,7 @@ const createProject = asyncHandler(async (req, res) => {
     createdBy: new mongoose.Types.ObjectId(req.user._id),
   });
   await ProjectMember.create({
-    user: mongoose.Types.ObjectId(req.user._id),
+    user: new mongoose.Types.ObjectId(req.user._id),
     project: new mongoose.Types.ObjectId(project._id),
     role: UserRolesEnum.ADMIN, // Creator is automatically admin of project
   });
@@ -255,7 +255,7 @@ const getProjectMembers = asyncHandler(async (req, res) => {
     {
       $addFields: {
         user: {
-          $arrElemAt: ["$user", 0],
+          $arrayElemAt: ["$user", 0],
         },
       },
     },
@@ -327,7 +327,6 @@ const updateMemberRole = asyncHandler(async (req, res) => {
     );
 });
 
-
 export {
   getProjectById,
   getProjects,
@@ -337,5 +336,5 @@ export {
   deleteProject,
   updateMemberRole,
   deleteMember,
-  addMemebersToProject
-}
+  addMemebersToProject,
+};
