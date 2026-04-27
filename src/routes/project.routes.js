@@ -9,7 +9,7 @@ import {
   updateMemberRole,
   deleteMember,
   addMemebersToProject,
-} from "../controllers/project.controllers.js";
+} from "../controllers/project.controller.js";
 import { validate } from "../middlewares/validator.middleware.js";
 import {
   createProjectValidator,

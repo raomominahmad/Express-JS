@@ -27,14 +27,13 @@ const taskSchema = new Schema(
       enum: AvailableTaskStatus,
       default: TaskStatusEnum.TODO,
     },
-    attachements: {
-      type: {
+    attachements: [
+      {
         url: String,
-        mimetype: String, // file type
+        mimetype: String,
         size: Number,
       },
-      default: [],
-    },
+    ],
   },
   { timestamps: true },
 );

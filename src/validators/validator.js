@@ -1,6 +1,8 @@
-import { body } from "express-validator";
+import { body,param } from "express-validator";
 import { AvailableUserRole } from "../utils/constants.js";
+import mongoose from "mongoose";
 
+// User Validators
 export const userRegisterValidator = () => {
   return [
     // Email
@@ -82,6 +84,7 @@ export const userResetForgotPasswordValidator = () => {
   return [body("newPassword").notEmpty().withMessage("Password is required")];
 };
 
+// Project Validators
 export const createProjectValidator = () => {
   return [
     body("name").notEmpty().withMessage("Name is required"),
@@ -104,5 +107,131 @@ export const addMembertoProjectValidator = () => {
       .withMessage("Role is required")
       .isIn(AvailableUserRole)
       .withMessage("Role is invalid"),
+  ];
+};
+
+export const projectIdValidator = () => {
+  return [
+    param("projectId")
+      .notEmpty()
+      .withMessage("Project ID is required")
+      .custom((value) => mongoose.Types.ObjectId.isValid(value))
+      .withMessage("Invalid Project ID"),
+  ];
+};
+
+// Notes Validator
+export const createNoteValidator = () => {
+  return [
+    body("title")
+      .notEmpty()
+      .withMessage("Title is required")
+      .trim(),
+
+    body("content")
+      .optional()
+      .trim(),
+  ];
+};
+
+export const updateNoteValidator = () => {
+  return [
+    param("noteId")
+      .notEmpty()
+      .withMessage("Note ID is required")
+      .custom((value) => mongoose.Types.ObjectId.isValid(value))
+      .withMessage("Invalid Note ID"),
+
+    body("title")
+      .optional()
+      .trim(),
+
+    body("content")
+      .optional()
+      .trim(),
+  ];
+};
+
+
+export const noteIdValidator = () => {
+  return [
+    param("noteId")
+      .notEmpty()
+      .withMessage("Note ID is required")
+      .custom((value) => mongoose.Types.ObjectId.isValid(value))
+      .withMessage("Invalid Note ID"),
+  ];
+};
+
+
+// Task Validator
+
+export const taskIdValidator = () => {
+  return [
+    param("taskId")
+      .notEmpty()
+      .withMessage("Task ID is required")
+      .custom((value) => mongoose.isValidObjectId(value))
+      .withMessage("Invalid Task ID"),
+  ];
+};
+
+export const createTaskValidator = () => {
+  return [
+    body("title")
+      .notEmpty()
+      .withMessage("Title is required")
+      .trim(),
+
+    body("description")
+      .optional()
+      .trim(),
+
+    body("assignedTo")
+      .optional()
+      .custom((value) => mongoose.isValidObjectId(value))
+      .withMessage("Invalid assignedTo user ID"),
+
+    body("status")
+      .optional()
+      .isIn(["todo", "in_progress", "done"])
+      .withMessage("Invalid task status"),
+  ];
+};
+
+export const updateTaskValidator = () => {
+  return [
+    param("taskId")
+      .notEmpty()
+      .withMessage("Task ID is required")
+      .custom((value) => mongoose.isValidObjectId(value))
+      .withMessage("Invalid Task ID"),
+
+    body("title")
+      .optional()
+      .trim(),
+
+    body("description")
+      .optional()
+      .trim(),
+
+    body("assignedTo")
+      .optional()
+      .custom((value) => mongoose.isValidObjectId(value))
+      .withMessage("Invalid assignedTo user ID"),
+
+    body("status")
+      .optional()
+      .isIn(["todo", "in_progress", "done"])
+      .withMessage("Invalid task status"),
+  ];
+};
+
+export const subTaskValidator = () => {
+  return [
+    body("title")
+      .notEmpty()
+      .withMessage("Title is required")
+      .trim(),
   ];
 };

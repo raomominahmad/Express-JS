@@ -65,10 +65,10 @@ const getProjects = asyncHandler(async (req, res) => {
           createdAt: 1,
           createdBy: 1,
         },
-      role: 1,
-      _id: 0,
-    } 
-   }
+        role: 1,
+        _id: 0,
+      },
+    },
   ]);
 
   return res
