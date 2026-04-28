@@ -267,7 +267,7 @@ const refreshAccessToken = asyncHandler(async (req, res) => {
       secure: true,
     };
 
-    // cahnage 'refreshtoken' attribute name to 'newrefreshToken' in object
+    // change 'refreshtoken' attribute name to 'newrefreshToken' in object
     const { accessToken, refreshToken: newrefreshToken } =
       await generateAccessAndRefreshTokens(user._id);
     user.refreshToken = newrefreshToken;
